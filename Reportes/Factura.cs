@@ -8,6 +8,7 @@ namespace Reportes
         public int Id { get; set; }
         public string NombreCliente { get; set; }
         public DateTime Fecha { get; set; }
+        public double Total { get; set; }
         public List<FacturaDetalle> ListaFacturaDetalle { get; set; }
 
         public Factura(int id, Cliente cliente, DateTime fecha)
@@ -18,11 +19,13 @@ namespace Reportes
             ListaFacturaDetalle = new List<FacturaDetalle>();
         }
 
-        internal void AgregarProducto(Producto producto, int cantidad)
+        public void AgregarProducto(Producto producto, int cantidad)
         {
             var id = ListaFacturaDetalle.Count + 1;
             var nuevoFacturaDetalle = new FacturaDetalle(id, producto, cantidad);
             nuevoFacturaDetalle.FacturaId = Id;
+
+            Total += nuevoFacturaDetalle.SubTotal;
 
             ListaFacturaDetalle.Add(nuevoFacturaDetalle);
         }
